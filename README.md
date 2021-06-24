@@ -1,6 +1,6 @@
 - 👋 Hi, I’m @jeonginy
 - 👀 I’m interested in programming, working out and loving socializing 
-- 🌱 I’m currently learning coding especially java
+- 🌱 I’m currently learning coding skills especially java
 - 💞️ I’m looking to collaborate on my journey for a web developer
 - 📫 Email me by the address down below
 
