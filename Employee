@@ -1,0 +1,31 @@
+/*
+	  table  : employee
+    ID : PRIMARY KEY
+    First Name
+    Last NAme
+    Email
+    Phone Number
+    Birthday
+    Position
+    Department 
+*/
+
+
+CREATE TABLE employee (
+	id INT PRIMARY KEY AUTO_INCREMENT
+    , firstName VARCHAR(10) NOT NULL
+    , lastName VARCHAR(10) NOT NULL
+    , email VARCHAR(30)
+    , phoneNumber VARCHAR(13)
+    , birthDay DATE NOT NULL
+    , position VARCHAR(10)
+    , department VARCHAR(10)
+);
+
+DESC employee;
+
+INSERT INTO employee (firstName, lastName, email, phoneNumber, birthDay, position, department)
+VALUES ("Bruce", "Wayne", "batman@dc.com", "010-555-5555", "1978-04-17", "Executive", null)
+, ("Clarks", "Kent", "superman@dc.com", "010-123-4567", "1954-09-01", "Senior Manager", "Marketing");
+
+SELECT * FROM employee;
