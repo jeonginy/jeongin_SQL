@@ -1,0 +1,26 @@
+/*
+	Table jobs
+    ID int PK 
+    Name 
+    Salary int
+*/
+
+CREATE TABLE jobs (
+	id INT PRIMARY KEY AUTO_INCREMENT
+    , title VARCHAR(45) NOT NULL
+    , salary INT DEFAULT 2400
+);
+
+DESC jobs;
+INSERT INTO jobs (title) VALUES ("Paladin");
+INSERT INTO jobs (title, salary) VALUES ("Priest", 3000);
+SELECT * FROM jobs;
+
+--
+DESC books;
+ALTER TABLE books MODIFY title VARCHAR(45) NOT NULL;
+ALTER TABLE books MODIFY price INT DEFAULT 10000;
+ALTER TABLE books ADD COLUMN writer VARCHAR(20) DEFAULT "Unknown";
+ALTER TABLE books CHANGE COLUMN writer bookWriter VARCHAR(20);
+ALTER TABLE books DROP COLUMN bookWriter;
+
