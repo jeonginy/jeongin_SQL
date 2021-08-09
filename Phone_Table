@@ -1,0 +1,15 @@
+CREATE TABLE phones (
+    model VARCHAR(10)
+    , serviceCompany VARCHAR(5)
+    , PRIMARY KEY (model, serviceCompany)
+);
+DESC phones;
+-- DROP TABLE phones;
+INSERT INTO phones (model, serviceCompany) VALUES ("S20", "KT");
+INSERT INTO phones (model, serviceCompany) VALUES ("S20", "LG U+");
+INSERT INTO phones (model, serviceCompany) VALUES ("S20", "SKT");
+
+INSERT INTO phones (model, serviceCompany) VALUES ("S21", "KT");
+
+SELECT * FROM phones
+WHERE model = "S20" AND serviceCompany = "KT";
