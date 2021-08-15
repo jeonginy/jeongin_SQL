@@ -1,0 +1,36 @@
+SELECT * FROM countries ORDER BY GNP;
+
+SELECT * FROM countries ORDER BY GNP DESC;
+
+SELECT * FROM countries LIMIT 4;
+
+-- ORDER BY + LIMIT
+SELECT * FROM country ORDER BY Population DESC LIMIT 10;
+SELECT * FROM countries ORDER BY SurfaceArea DESC LIMIT 10;
+
+-- Top 10 of countries having the smallest surfaceArea with region name ends in "Asia" 
+SELECT * FROM countries
+WHERE Region LIKE "%Asia"
+ORDER BY SurfaceArea
+LIMIT 10;
+
+SELECT * FROM countries LIMIT 10 OFFSET 10;
+
+-- Top 10 of countries being the highest population's propotion 
+SELECT * FROM countries
+ORDER BY Population / SurfaceArea DESC -- DESCENT
+LIMIT 10;
+
+-- Organize countries by independent year among countries with region name ending in America
+-- Exclude "NULL"
+-- Region ending with "Africa"
+
+SELECT * FROM countries
+WHERE Region LIKE "%Africa" AND IndepYear IS NOT NULL
+ORDER BY IndepYear; -- ASCENT
+
+SELECT * FROM countries
+ORDER BY Continent ASC, Region DESC; -- 첫 번째 기준 : 같은 region끼리 정렬 (두 번째 기준 : 같은 값들을 가지는 것 끼리 정렬)
+-- Ascendant / Descendant 
+
+
