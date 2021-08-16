@@ -1,0 +1,244 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Main {
+	public static Connection getConnection() {
+		String url = "jdbc:mysql://localhost:3306/my_db";
+		String id = "???";
+		String password = "???";
+		
+		Connection conn = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection(url, id, password);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return conn;
+	}
+	
+	public static int addBurger(String brand, String name, int price) {
+		Connection conn = getConnection();
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement("INSERT INTO hamburger(brand, name, price) VALUES (?, ?, ?)");
+			pstmt.setString(1, brand);
+			pstmt.setString(2, name);
+			pstmt.setInt(3, price);
+			
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return 0;
+	}
+	// preparedStatement 사용해서 burger 테이블의 row를 update하는 메소드를 작성하고
+	// 호출해서 id 3번의 햄버거를 => 맘스터치, 싸이버거, 3800으로 변경해보세요.
+	public static int updateBurger(int id, String brand, String name, int price) {
+		Connection conn = getConnection();
+		PreparedStatement stmt = null;
+		try {
+			stmt = conn.prepareStatement("UPDATE hamburger SET brand = ?, name = ?, price = ? WHERE id = ?");
+			stmt.setString(1, brand);
+			stmt.setString(2, name);
+			stmt.setInt(3, price);
+			stmt.setInt(4, id);
+			
+			return stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return 0;
+	}
+	// Delete 햄버거 id 전달받아서 해당 행 삭제하는 메소드
+	public static int deleteBurger(int id) {
+		Connection conn = getConnection();
+		PreparedStatement stmt = null;
+		
+		try {
+			stmt = conn.prepareStatement("DELETE FROM hamburger WHERE id = ?");
+			stmt.setInt(1, id);
+			
+			return stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return 0;
+	}
+	
+	// Select 전부 다. (간단하게 콘솔창 출력 or 문자열로 return)
+	public static List<String> selectAllBurger() {
+		Connection conn = getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		List<String> list = new ArrayList<>();
+		try {
+			stmt = conn.prepareStatement("SELECT * FROM hamburger");
+			rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String brand = rs.getString("brand");
+				String name = rs.getString("name");
+				int price = rs.getInt("price");
+				
+				list.add(id + ":" + brand + ":" + name + ":" + price);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
+	// Select 브랜드 명으로 조회.
+	public static List<String> selectBurgerByBrand(String brandParam) {
+		Connection conn = getConnection();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		List<String> list = new ArrayList<>();
+		try {
+			stmt = conn.prepareStatement("SELECT * FROM hamburger WHERE brand = ?");
+			stmt.setString(1, brandParam);
+			
+			rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String brand = rs.getString("brand");
+				String name = rs.getString("name");
+				int price = rs.getInt("price");
+				
+				list.add(String.format("%d %s %s %d", id, brand, name, price));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
+	
+	public static void main(String[] args) {
+//		addBurger("롯데리아", "불고기버거", 4200);
+//		int result = updateBurger(2, "맥도날드", "1955", 5500);
+//		System.out.println(result + "행이 수정됨.");
+		
+//		int result = deleteBurger(1);
+//		System.out.println(result + "행이 삭제됨.");
+		
+//		List<String> result = selectAllBurger();
+//		System.out.println(result);
+		
+		System.out.println(selectBurgerByBrand("버거킹"));
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
