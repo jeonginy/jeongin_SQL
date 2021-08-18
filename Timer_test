@@ -1,0 +1,63 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.Timer;
+
+class MyFrame extends JFrame{
+	private int number = 100;
+	
+	public MyFrame() {
+		JLabel lbl = new JLabel(String.valueOf(number));
+		add(lbl);
+								//	to demonstrate keeping 'Action' increasing number by 0.5 sec
+		Timer timer  =  new Timer(500, new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				number++;
+				lbl.setText(String.valueOf(number));
+			}
+		});
+		
+		JButton btn = new JButton("increasinga");
+		btn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+//				for(int i = 0; i < 100; i++) {
+//					number++;
+//					lbl.setText(String.valueOf(number));
+				timer.start();
+//				}
+			}
+		});
+		add(btn, "South");
+		
+		showGUI();
+		
+	}
+	private void showGUI() {
+		setSize(500,500);
+		setLocation(300,100);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setVisible(true);
+	}
+}
+
+public class Main {
+	public static void main(String[] args) {
+		
+		new MyFrame();
+		
+	}
+
+}
+
+
+
+
+
+
+
