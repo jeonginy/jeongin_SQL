@@ -1,0 +1,50 @@
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+/*
+ * 네트워크 상으로 정수를 입력받아서 사칙연산 서비스를 제공하는 서버 프로그램 작성
+ */
+public class MainServer {
+	private static final int PORT = 7856;
+	private static DataInputStream dis;
+	private static DataOutputStream dos;
+	
+	public static void main(String[] args) {
+		 System.out.println("-- 서버 시작 --");
+		try(ServerSocket server = new ServerSocket(PORT)){
+			try (Socket client = server.accept()){
+				dos = new DataOutputStream(client.getOutputStream());
+				dis = new DataInputStream(client.getInputStream());
+//  =========================================================== 1. 클라이언트에게 보낼 값 ========	
+				dos.writeUTF("환영합니다. 네트워크 계산기입니다.");		
+				dos.flush();
+//  =========================================================== 2. 클라이언트에게 보낼 값 ========	
+				dos.writeUTF("정수를 입력하세요");	
+				dos.flush();
+//	=========================================================== 클라이언트가 입력해서 보낸 값 읽어서 보여주기 ========			
+				int read = dis.readInt();				
+				System.out.println("사용자가 보낸 정수값 :" + read);
+				
+//  =========================================================== 3. 클라이언트에게 보낼 값 ========		
+				dos.writeUTF("연산자를 입력하세요 + - * /" );	
+				dos.flush();
+				
+//  =========================================================== 클라이언트가 입력해서 보낸 값 읽어서 보여주기 ========	
+				String oper = dis.readUTF();
+				System.out.println("사용자가 보낸 연산자 : " + oper);
+				
+			} finally {
+				dos.close();
+				dis.close();
+			}
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+		
+	}
+
+}
